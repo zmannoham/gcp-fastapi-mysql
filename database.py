@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-URL_DATABASE = 'mysql+pymysql://root:jimmy123@10.118.192.8:3306/levi-db'
+URL_DATABASE = 'mysql+pymysql://root:jimmy123@10.7.0.3:3306/main'
 
 engine = create_engine(URL_DATABASE)
 
