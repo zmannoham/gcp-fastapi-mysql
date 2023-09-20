@@ -1,17 +1,25 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from pydantic import BaseModel
 from typing import Annotated
 import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from fastapi.templating import Jinja2Templates
+
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
 models.Base.metadata.create_all(bind=engine)
+
+
+
 
 class PostBase(BaseModel):
     title: str
     content: str
     user_id: int
+    mood: str
 
 class UserBase(BaseModel):
     username: str
@@ -22,6 +30,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@app.get('/')
+async def name(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request, "name" : "jimmythecat"})
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
